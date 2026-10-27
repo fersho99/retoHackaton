@@ -1,0 +1,126 @@
+@import "tailwindcss";
+
+/*
+  Sistema de diseño — No elegir, también es una elección
+  Un solo tema oscuro. Un color de marca (violeta) y un acento (magenta)
+  reservado exclusivamente para "tú": el dato del usuario.
+*/
+
+:root {
+  /* Superficies */
+  --bg: #08060d;
+  --surface: #110d1a;
+  --surface-2: #1a1426;
+  --line: rgb(255 255 255 / 0.08);
+  --line-strong: rgb(255 255 255 / 0.16);
+
+  /* Texto */
+  --ink: #f4f1fa;
+  --ink-2: #b9b0cc;
+  --ink-3: #7d7393;
+
+  /* Datos */
+  --violet: #9b6dff;
+  --violet-soft: #c6b0ff;
+  --magenta: #ff4f9a;
+  --reference: #c6b0ff;
+
+  /* Curvas */
+  --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+  --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
+  --ease-drawer: cubic-bezier(0.32, 0.72, 0, 1);
+
+  /* Duraciones */
+  --dur-press: 140ms;
+  --dur-small: 180ms;
+  --dur-ui: 220ms;
+  --dur-reveal: 700ms;
+
+  color-scheme: dark;
+}
+
+@theme inline {
+  --color-bg: var(--bg);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-line: var(--line);
+  --color-line-strong: var(--line-strong);
+  --color-ink: var(--ink);
+  --color-ink-2: var(--ink-2);
+  --color-ink-3: var(--ink-3);
+  --color-violet: var(--violet);
+  --color-violet-soft: var(--violet-soft);
+  --color-magenta: var(--magenta);
+  --color-reference: var(--reference);
+
+  --font-sans: var(--font-archivo), system-ui, sans-serif;
+  --font-mono: var(--font-jetbrains), ui-monospace, monospace;
+
+  --radius-sm: 4px;
+  --radius-md: 10px;
+  --radius-lg: 16px;
+
+  --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+  --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
+}
+
+html {
+  background: var(--bg);
+}
+
+body {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font-sans);
+  font-feature-settings: "ss01";
+  -webkit-font-smoothing: antialiased;
+}
+
+::selection {
+  background: var(--violet);
+  color: var(--bg);
+}
+
+/* Cifras: siempre tabulares para que no "bailen" al cambiar */
+.num {
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: "tnum";
+}
+
+/* Tipografía display condensada */
+.display {
+  font-variation-settings: "wdth" 72;
+  letter-spacing: -0.02em;
+  line-height: 0.96;
+}
+
+/* Etiquetas técnicas tipo HUD */
+.hud {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+}
+
+/* Todo lo presionable responde al toque */
+.pressable {
+  transition: transform var(--dur-press) var(--ease-out);
+}
+.pressable:active {
+  transform: scale(0.97);
+}
+
+/* Hover solo con mouse real: en táctil el tap dispara hover falso */
+@media (hover: hover) and (pointer: fine) {
+  .hover-lift:hover {
+    border-color: var(--line-strong);
+  }
+}
+
+/* Menos movimiento ≠ cero movimiento: se conservan fundidos, se quitan desplazamientos */
+@media (prefers-reduced-motion: reduce) {
+  .pressable:active {
+    transform: none;
+  }
+}
