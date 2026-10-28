@@ -1,7 +1,7 @@
 import { readFile } from "node:fs/promises";
 import { join } from "node:path";
 import { ImageResponse } from "next/og";
-import type { NextRequest } from "next/server";
+import { connection, type NextRequest } from "next/server";
 import { datosTarjeta, leerParams } from "@/lib/tarjeta";
 import type { Cube } from "@/lib/types";
 
@@ -54,8 +54,11 @@ function fondoEn(alto: number, cx: number, cy: number) {
 }
 
 export async function GET(req: NextRequest) {
-  const { cube, fondo, fuentes } = await cargar();
+  // La petición se lee antes de cualquier espera: así Next la trata como
+  // dinámica y no intenta prerenderizar la ruta al compilar.
+  await connection();
   const { estado, edad } = leerParams(req.nextUrl.searchParams);
+  const { cube, fondo, fuentes } = await cargar();
   const d = datosTarjeta(cube, estado, edad);
   const og = req.nextUrl.searchParams.get("f") === "og";
   const sitio = req.nextUrl.host;
