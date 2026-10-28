@@ -138,7 +138,7 @@ export const PesoMunicipio = forwardRef<HTMLElement>(function PesoMunicipio(_, r
 
   return (
     <section ref={ref} className="flex min-h-svh flex-col justify-center px-6 py-24 sm:px-10">
-      <div ref={rvRef} data-visible={visible}>
+      <div ref={rvRef} data-visible={visible} className="contenido">
         <p className="hud rv">
           Participación por grupo de edad ·{" "}
           {view?.nombre ? `${view.nombre} · ${lugarEstado}` : "Todo el país"} · 2024

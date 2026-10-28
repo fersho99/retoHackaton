@@ -47,7 +47,7 @@ export function NoVotaron() {
 
       <div aria-hidden className="pointer-events-none absolute inset-0 bg-bg/70 sm:hidden" />
 
-      <div ref={rvRef} data-visible={visible} className="relative">
+      <div ref={rvRef} data-visible={visible} className="contenido relative">
         <p className="hud rv">
           Lista nominal · {nombre ?? "Todo el país"} ·{" "}
           {edad != null ? `${edad} años` : "Todas las edades"} · 2024

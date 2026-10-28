@@ -71,7 +71,7 @@ export function Compartir() {
       <div
         ref={rvRef}
         data-visible={visible}
-        className="grid items-center gap-12 lg:grid-cols-[minmax(0,6fr)_minmax(0,5fr)] lg:gap-16"
+        className="contenido grid items-center gap-12 lg:grid-cols-[auto_auto] lg:justify-start lg:gap-20"
       >
         <div>
           <p className="hud rv">Tu tarjeta · 1080 × 1920</p>
@@ -113,7 +113,7 @@ export function Compartir() {
           </p>
         </div>
 
-        <figure className="rv justify-self-center lg:justify-self-end" style={delay(200)}>
+        <figure className="rv justify-self-center lg:justify-self-start" style={delay(200)}>
           <div className="relative aspect-[9/16] w-[min(72vw,20rem)] overflow-hidden rounded-[1.25rem] bg-surface shadow-2xl shadow-black/60">
             {visible && (
               // eslint-disable-next-line @next/next/no-img-element -- imagen generada en el servidor, ya optimizada

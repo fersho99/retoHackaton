@@ -33,7 +33,7 @@ export function Tinta() {
       </div>
       <div aria-hidden className="pointer-events-none absolute inset-0 bg-bg/65 sm:hidden" />
 
-      <div ref={rvRef} data-visible={visible} className="relative max-w-xl">
+      <div ref={rvRef} data-visible={visible} className="contenido relative *:max-w-xl">
         <p className="hud rv">Elección federal · todo el país · 2024</p>
         <p
           className="rv display num mt-6 text-[18vw] font-black text-violet-soft sm:text-[10vw] lg:text-[8rem]"

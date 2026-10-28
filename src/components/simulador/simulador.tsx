@@ -26,7 +26,7 @@ export function Simulador() {
 
   return (
     <section className="flex min-h-svh flex-col justify-center px-6 py-24 sm:px-10">
-      <div ref={rvRef} data-visible={visible}>
+      <div ref={rvRef} data-visible={visible} className="contenido">
         <p className="hud rv">
           Simulación · {m?.grupo.etiqueta ?? "—"} · {nombreEstado(estado) ?? "Todo el país"} ·
           Elección 2024
@@ -159,7 +159,7 @@ function Panel({ m, lugar, visible }: { m: Modelo; lugar: string; visible: boole
         </p>
       </div>
 
-      <figure className="rv w-full max-w-[30rem] lg:justify-self-end" style={delay(200)}>
+      <figure className="rv w-full max-w-[30rem] lg:justify-self-center" style={delay(200)}>
         <div
           className="grid grid-cols-10 gap-2 sm:gap-3"
           data-primera={primera && visible ? "" : undefined}

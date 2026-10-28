@@ -94,6 +94,14 @@ body {
   line-height: 0.96;
 }
 
+/* Ancho máximo del contenido: en pantallas muy anchas la cifra no se aleja de su gráfica.
+   Las fotos de fondo siguen a sangre completa. */
+.contenido {
+  width: 100%;
+  max-width: 90rem;
+  margin-inline: auto;
+}
+
 /* Etiquetas técnicas tipo HUD */
 .hud {
   font-family: var(--font-mono);
