@@ -186,7 +186,8 @@ export function CampoEdad({ id, value, onChange, className }: EdadProps) {
             onBlur={() => setEditando(false)}
             className={clsx(
               "num w-[3ch] bg-transparent text-center text-lg text-ink outline-none placeholder:text-ink-2",
-              value == null && !editando && "w-[5.5ch]",
+              // Vacío muestra "Todas": necesita más ancho, esté o no en edición
+              mostrado === "" && "w-[5.5ch]",
             )}
           />
           {(value != null || (editando && txt !== "")) && (

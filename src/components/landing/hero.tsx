@@ -55,26 +55,34 @@ export function Hero({ onStart }: { onStart: () => void }) {
         </p>
       </div>
 
-      <div
-        className="a-fade-up relative grid grid-cols-[minmax(0,1fr)] bg-surface/70 sm:grid-cols-[minmax(0,1fr)_15rem] lg:grid-cols-[minmax(0,1fr)_15rem_19rem]"
-        style={delay(650)}
-      >
-        <CampoSelect
-          id="campo-estado"
-          etiqueta="Tu estado"
-          value={estado}
-          onChange={setEstado}
-          vacio="Todo el país"
-          opciones={OPCIONES_ESTADO}
-          className="px-6 py-4 sm:px-10"
-        />
-        <CampoEdad id="campo-edad" value={edad} onChange={setEdad} className="px-6 py-4" />
-        <button
-          onClick={onStart}
-          className="pressable flex items-center justify-center gap-3 bg-violet px-10 py-5 font-semibold whitespace-nowrap text-bg sm:col-span-2 lg:col-span-1"
+      <div className="relative px-6 pb-6 sm:px-10 sm:pb-10">
+        <div
+          className="a-fade-up panel grid grid-cols-[minmax(0,1fr)] gap-1 rounded-[1.25rem] p-2 sm:grid-cols-[minmax(0,1fr)_15rem] lg:max-w-5xl lg:grid-cols-[minmax(0,1fr)_15rem_17rem]"
+          style={delay(650)}
         >
-          {personalizado ? "Ver mi impacto" : "Ver el promedio nacional"} <span aria-hidden>↓</span>
-        </button>
+          <CampoSelect
+            id="campo-estado"
+            etiqueta="Tu estado"
+            value={estado}
+            onChange={setEstado}
+            vacio="Todo el país"
+            opciones={OPCIONES_ESTADO}
+            className="rounded-xl px-5 py-3"
+          />
+          <CampoEdad
+            id="campo-edad"
+            value={edad}
+            onChange={setEdad}
+            className="rounded-xl px-5 py-3"
+          />
+          <button
+            onClick={onStart}
+            className="pressable mt-1 flex min-h-14 items-center justify-center gap-3 rounded-full bg-violet px-8 font-semibold whitespace-nowrap text-bg sm:col-span-2 lg:col-span-1 lg:mt-0"
+          >
+            {personalizado ? "Ver mi impacto" : "Ver el promedio nacional"}{" "}
+            <span aria-hidden>↓</span>
+          </button>
+        </div>
       </div>
     </section>
   );

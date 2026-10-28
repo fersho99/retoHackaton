@@ -146,7 +146,7 @@ export const PesoMunicipio = forwardRef<HTMLElement>(function PesoMunicipio(_, r
                   value={mi}
                   onChange={(v) => v != null && setElegido({ estado, mi: v })}
                   opciones={opciones}
-                  className="rounded-md bg-surface-2/70 px-4 py-3"
+                  className="rounded-xl bg-surface-2/70 px-5 py-3"
                 />
               ) : (
                 <NotaPromedio campo="campo-estado" className="py-3">
