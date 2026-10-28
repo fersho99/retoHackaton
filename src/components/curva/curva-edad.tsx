@@ -27,7 +27,7 @@ function Tip({ active, payload, label }: TooltipContentProps) {
   const estado = payload.find((p) => p.dataKey === "rate")?.value;
   const nacional = payload.find((p) => p.dataKey === "nacional")?.value;
   return (
-    <div className="rounded-md border border-line-strong bg-surface-2 px-3 py-2 text-xs">
+    <div className="rounded-md bg-surface-2 px-3 py-2 text-xs shadow-lg shadow-black/50">
       <p className="hud mb-1">{label === 90 ? "90 o más" : `${label} años`}</p>
       <p className="num text-ink">Estado · {fp(estado as number)}</p>
       <p className="num text-reference">Nacional · {fp(nacional as number)}</p>
@@ -63,7 +63,7 @@ export const CurvaEdad = forwardRef<HTMLElement>(function CurvaEdad(_, ref) {
   return (
     <section
       ref={ref}
-      className="flex min-h-svh flex-col justify-center border-t border-line px-6 py-20 sm:px-10"
+      className="flex min-h-svh flex-col justify-center px-6 py-24 sm:px-10"
     >
       <p className="hud">
         Participación por edad · {lugar} · 2024
@@ -80,7 +80,7 @@ export const CurvaEdad = forwardRef<HTMLElement>(function CurvaEdad(_, ref) {
           </p>
 
           {view && (
-            <dl className="mt-8 grid max-w-md grid-cols-3 gap-4 border-t border-line pt-5">
+            <dl className="mt-10 grid max-w-md grid-cols-3 gap-4">
               <div>
                 <dt className="hud">Tu edad</dt>
                 <dd className="num mt-1 text-lg text-magenta">{fp(userRate, 0)}</dd>

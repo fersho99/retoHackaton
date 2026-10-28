@@ -1,6 +1,5 @@
 "use client";
 
-import Image from "next/image";
 import { useState, type CSSProperties } from "react";
 import { ESTADOS } from "@/lib/estados";
 import { useSelection } from "@/lib/selection";
@@ -19,18 +18,6 @@ export function Hero({ onStart }: { onStart: () => void }) {
 
   return (
     <section className="grain relative flex min-h-svh flex-col overflow-hidden">
-      <Image
-        src="/img/hero-fondo.jpg"
-        alt=""
-        fill
-        priority
-        sizes="100vw"
-        className="a-fade pointer-events-none object-cover opacity-35"
-      />
-      <div
-        aria-hidden
-        className="pointer-events-none absolute inset-0 bg-linear-to-r from-bg via-bg/75 to-transparent"
-      />
       <div
         aria-hidden
         className="a-fade pointer-events-none absolute inset-0"
@@ -38,15 +25,6 @@ export function Hero({ onStart }: { onStart: () => void }) {
           background:
             "radial-gradient(60% 50% at 85% 10%, rgb(155 109 255 / 0.22), transparent 70%), radial-gradient(40% 40% at 0% 100%, rgb(255 79 154 / 0.10), transparent 70%)",
         }}
-      />
-
-      <Image
-        src="/img/cubos-b.png"
-        alt=""
-        width={379}
-        height={240}
-        className="a-fade pointer-events-none absolute bottom-32 right-10 hidden w-[340px] sm:block"
-        style={delay(900)}
       />
 
       <header className="relative flex items-center justify-between gap-4 px-6 pt-6 sm:px-10">
@@ -74,7 +52,7 @@ export function Hero({ onStart }: { onStart: () => void }) {
       </div>
 
       <div
-        className="a-fade-up relative grid grid-cols-1 border-t border-line sm:grid-cols-[1fr_10rem_auto]"
+        className="a-fade-up relative grid grid-cols-1 bg-surface/70 sm:grid-cols-[1fr_10rem_auto]"
         style={delay(650)}
       >
         <label className="flex flex-col gap-1 px-6 py-4 sm:px-10">
@@ -94,7 +72,7 @@ export function Hero({ onStart }: { onStart: () => void }) {
             ))}
           </select>
         </label>
-        <label className="flex flex-col gap-1 border-t border-line px-6 py-4 sm:border-l sm:border-t-0">
+        <label className="flex flex-col gap-1 px-6 py-4">
           <span className="hud">Tu edad</span>
           <input
             inputMode="numeric"

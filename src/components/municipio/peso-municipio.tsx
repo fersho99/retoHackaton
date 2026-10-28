@@ -1,6 +1,5 @@
 "use client";
 
-import Image from "next/image";
 import { forwardRef, useMemo, useState } from "react";
 import {
   Bar,
@@ -25,7 +24,7 @@ function Tip({ active, payload }: TooltipContentProps) {
   if (!active || !payload?.length) return null;
   const d = payload[0].payload as { nombre: string; tasa: number | null; ln: number };
   return (
-    <div className="rounded-md border border-line-strong bg-surface-2 px-3 py-2 text-xs">
+    <div className="rounded-md bg-surface-2 px-3 py-2 text-xs shadow-lg shadow-black/50">
       <p className="hud mb-1">{d.nombre}</p>
       <p className="num text-ink">Votó · {fp(d.tasa)}</p>
       <p className="num text-ink-2">Lista nominal · {fn(d.ln)}</p>
@@ -94,16 +93,8 @@ export const PesoMunicipio = forwardRef<HTMLElement>(function PesoMunicipio(_, r
   return (
     <section
       ref={ref}
-      className="relative flex min-h-svh flex-col justify-center overflow-hidden border-t border-line px-6 py-20 sm:px-10"
+      className="flex min-h-svh flex-col justify-center px-6 py-24 sm:px-10"
     >
-      <Image
-        src="/img/grafica-pastel.png"
-        alt=""
-        width={1362}
-        height={987}
-        sizes="220px"
-        className="pointer-events-none absolute right-10 top-8 hidden w-[220px] sm:block"
-      />
       <p className="hud">
         Participación por grupo de edad · {view?.nombre ?? "Tu municipio"}
         {lugar ? ` · ${lugar}` : ""} · 2024
@@ -116,7 +107,7 @@ export const PesoMunicipio = forwardRef<HTMLElement>(function PesoMunicipio(_, r
       ) : (
         <div className="mt-8 grid items-center gap-10 lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] lg:gap-16">
           <div>
-            <label className="flex max-w-md flex-col gap-1 border-b border-line-strong pb-3">
+            <label className="flex max-w-md flex-col gap-1 rounded-md bg-surface-2/70 px-4 py-3">
               <span className="hud">Tu municipio</span>
               <select
                 value={mi ?? ""}
