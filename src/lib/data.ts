@@ -65,7 +65,7 @@ export function loadMuni(): Promise<Muni> {
 export function ageCurve(
   cube: Cube,
   entCode: number | null,
-  yearIdx: number
+  yearIdx: number,
 ): { age: number; rate: number | null; ln: number }[] {
   const byAge = new Map<number, Totals>();
   const n = cube.y.length;
@@ -93,7 +93,7 @@ export function totalsForAge(
   cube: Cube,
   entCode: number | null,
   yearIdx: number,
-  age: number
+  age: number,
 ): Totals {
   const out = emptyTotals();
   const n = cube.y.length;
@@ -107,11 +107,7 @@ export function totalsForAge(
 }
 
 /** Promedio nacional por grupo de edad (banda 0–4), calculado desde el cubo de edad exacta. */
-export function nationalBandTotals(
-  cube: Cube,
-  band: number,
-  yearIdx: number
-): Totals {
+export function nationalBandTotals(cube: Cube, band: number, yearIdx: number): Totals {
   const out = emptyTotals();
   const n = cube.y.length;
   for (let i = 0; i < n; i++) {
@@ -123,9 +119,7 @@ export function nationalBandTotals(
 }
 
 /** Lista de municipios por estado, ordenada alfabéticamente, con su índice en muni.mp. */
-export function listMunicipiosByEnt(
-  muni: Muni
-): Record<number, { i: number; n: string }[]> {
+export function listMunicipiosByEnt(muni: Muni): Record<number, { i: number; n: string }[]> {
   const out: Record<number, { i: number; n: string }[]> = {};
   muni.mp.forEach((m, i) => {
     const [edo, , nombre] = m;
@@ -150,11 +144,7 @@ export function municipioBands(muni: Muni, mi: number, yearIdx: number): Totals[
 }
 
 /** Totales para un estado (o nacional) y una elección, sumando todas las edades. */
-export function totalsForScope(
-  cube: Cube,
-  entCode: number | null,
-  yearIdx: number
-): Totals {
+export function totalsForScope(cube: Cube, entCode: number | null, yearIdx: number): Totals {
   const out = emptyTotals();
   const n = cube.y.length;
   for (let i = 0; i < n; i++) {

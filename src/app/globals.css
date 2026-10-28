@@ -113,10 +113,51 @@ body {
   transform: scale(0.97);
 }
 
+/* Tailwind v4 deja los botones con cursor por defecto */
+button:not(:disabled) {
+  cursor: pointer;
+}
+
+/* Campos del formulario: toda la celda se siente tocable */
+.campo {
+  cursor: pointer;
+  transition: background-color var(--dur-small) ease;
+}
+.campo-texto {
+  cursor: text;
+}
+.campo:focus-within {
+  background-color: color-mix(in oklab, var(--violet) 14%, var(--surface));
+}
+/* Indicador visible solo al navegar con teclado */
+.campo:has(:focus-visible) {
+  outline: 2px solid var(--violet);
+  outline-offset: -2px;
+}
+.paso {
+  transition:
+    transform var(--dur-press) var(--ease-out),
+    background-color var(--dur-small) ease,
+    opacity var(--dur-small) ease;
+}
+.paso:focus-visible,
+.nota-promedio:focus-visible {
+  outline: 2px solid var(--violet);
+  outline-offset: 2px;
+}
+.nota-promedio {
+  transition:
+    transform var(--dur-press) var(--ease-out),
+    color var(--dur-small) ease;
+}
+
 /* Hover solo con mouse real: en táctil el tap dispara hover falso */
 @media (hover: hover) and (pointer: fine) {
-  .hover-lift:hover {
-    border-color: var(--line-strong);
+  .campo:hover:not(:focus-within) {
+    background-color: var(--surface-2);
+  }
+  .paso:not(:disabled):hover {
+    background-color: rgb(255 255 255 / 0.14);
   }
 }
 
@@ -128,21 +169,44 @@ body {
 }
 
 @keyframes rise {
-  from { transform: translateY(105%); }
-  to { transform: translateY(0); }
+  from {
+    transform: translateY(105%);
+  }
+  to {
+    transform: translateY(0);
+  }
 }
 @keyframes fade-up {
-  from { opacity: 0; transform: translateY(8px); }
-  to { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 @keyframes fade {
-  from { opacity: 0; }
-  to { opacity: 1; }
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
 
-.a-rise { animation: rise 900ms var(--ease-out) both; animation-delay: var(--d, 0ms); }
-.a-fade-up { animation: fade-up 500ms var(--ease-out) both; animation-delay: var(--d, 0ms); }
-.a-fade { animation: fade 700ms var(--ease-out) both; animation-delay: var(--d, 0ms); }
+.a-rise {
+  animation: rise 900ms var(--ease-out) both;
+  animation-delay: var(--d, 0ms);
+}
+.a-fade-up {
+  animation: fade-up 500ms var(--ease-out) both;
+  animation-delay: var(--d, 0ms);
+}
+.a-fade {
+  animation: fade 700ms var(--ease-out) both;
+  animation-delay: var(--d, 0ms);
+}
 
 @media (prefers-reduced-motion: reduce) {
   .a-rise,
@@ -168,8 +232,14 @@ body {
 
 /* Punto "tú" en la gráfica: aparece cuando la curva termina de dibujarse */
 @keyframes dot-in {
-  from { opacity: 0; transform: scale(0.9); }
-  to { opacity: 1; transform: scale(1); }
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
 }
 .dot-in {
   transform-box: fill-box;

@@ -17,7 +17,9 @@ import {
 } from "recharts";
 import { ageCurve, fn, fp, totalsForAge, totalsForScope, rate } from "@/lib/data";
 import { nombreEstado } from "@/lib/estados";
-import { useSelection } from "@/lib/selection";
+import { enLugar, useSelection } from "@/lib/selection";
+import { NotaPromedio } from "@/components/ui/campo";
+import clsx from "clsx";
 import { useCube } from "@/lib/use-data";
 import { EASE_IN_OUT, EASE_OUT } from "@/lib/motion";
 import { useReveal } from "@/lib/use-reveal";
@@ -50,8 +52,14 @@ function Tip({ active, payload, label }: TooltipContentProps) {
   return (
     <div className="rounded-md bg-surface-2 px-3 py-2 text-xs shadow-lg shadow-black/50">
       <p className="hud mb-1">{label === 90 ? "90 o más" : `${label} años`}</p>
-      <p className="num text-ink">Estado · {fp(estado as number)}</p>
-      <p className="num text-reference">Nacional · {fp(nacional as number)}</p>
+      {nacional === undefined ? (
+        <p className="num text-ink">Votó · {fp(estado as number)}</p>
+      ) : (
+        <>
+          <p className="num text-ink">Estado · {fp(estado as number)}</p>
+          <p className="num text-reference">Nacional · {fp(nacional as number)}</p>
+        </>
+      )}
     </div>
   );
 }
@@ -59,7 +67,9 @@ function Tip({ active, payload, label }: TooltipContentProps) {
 export const CurvaEdad = forwardRef<HTMLElement>(function CurvaEdad(_, ref) {
   const cube = useCube();
   const { estado, edad } = useSelection();
-  const lugar = nombreEstado(estado) ?? "México";
+  const nombre = nombreEstado(estado);
+  const lugar = nombre ?? "Todo el país";
+  const conEdad = edad != null;
   const [rvRef, visible] = useReveal();
   const reduce = usePrefersReducedMotion();
   // La curva se dibuja una vez; después solo se transforma rápido si cambian los datos
@@ -76,16 +86,25 @@ export const CurvaEdad = forwardRef<HTMLElement>(function CurvaEdad(_, ref) {
       rate: p.rate,
       nacional: nacional[i].rate,
     }));
-    const user = local.find((p) => p.age === edad);
+    const user = edad != null ? local.find((p) => p.age === edad) : undefined;
     // Ignora edades con muy pocas personas: un grupo diminuto distorsiona el máximo
     const robustos = local.filter((p) => p.rate != null && p.ln >= 500);
     const peak = robustos.reduce((a, b) => ((b.rate ?? 0) > (a.rate ?? 0) ? b : a));
     const scope = totalsForScope(cube, estado, YEAR_IDX);
-    const edadTot = totalsForAge(cube, estado, YEAR_IDX, edad);
-    return { data, user, peak, scopeRate: rate(scope), edadTot };
+    const edadTot = edad != null ? totalsForAge(cube, estado, YEAR_IDX, edad) : null;
+    // Jóvenes: 18–29 años sumando personas, no promediando tasas
+    const jovenes = { ln: 0, sv: 0, nv: 0 };
+    for (let a = 18; a <= 29; a++) {
+      const t = totalsForAge(cube, estado, YEAR_IDX, a);
+      jovenes.ln += t.ln;
+      jovenes.sv += t.sv;
+      jovenes.nv += t.nv;
+    }
+    return { data, user, peak, jovenesRate: rate(jovenes), scopeRate: rate(scope), edadTot };
   }, [cube, estado, edad]);
 
   const userRate = view?.user?.rate ?? null;
+  const cifra = conEdad ? userRate : (view?.scopeRate ?? null);
 
   return (
     <section
@@ -114,26 +133,42 @@ export const CurvaEdad = forwardRef<HTMLElement>(function CurvaEdad(_, ref) {
         <div className="mt-8 grid items-center gap-10 lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] lg:gap-16">
           <div>
             <p
-              className="rv display num text-[22vw] font-black text-magenta sm:text-[14vw] lg:text-[9rem]"
+              className={clsx(
+                "rv display num text-[22vw] font-black sm:text-[14vw] lg:text-[9rem]",
+                conEdad ? "text-magenta" : "text-ink",
+              )}
               style={delay(80)}
             >
               <Cifra
-                value={userRate != null ? Math.round(userRate) : null}
+                value={cifra != null ? Math.round(cifra) : null}
                 visible={visible}
                 suffix="%"
               />
             </p>
             <p className="rv mt-4 max-w-md text-xl text-ink-2 sm:text-2xl" style={delay(160)}>
-              de las personas de <span className="num text-ink">{edad}</span> años en{" "}
-              <span className="text-ink">{lugar}</span> votó en la elección de 2024.
+              {conEdad ? (
+                <>
+                  de las personas de <span className="num text-ink">{edad}</span> años{" "}
+                </>
+              ) : (
+                "de las personas inscritas "
+              )}
+              <span className="text-ink">{enLugar(nombre)}</span> votó en la elección de 2024.
             </p>
 
             {view && (
               <dl className="rv mt-10 grid max-w-md grid-cols-3 gap-4" style={delay(240)}>
-                <div>
-                  <dt className="hud">Tu edad</dt>
-                  <dd className="num mt-1 text-lg text-magenta">{fp(userRate, 0)}</dd>
-                </div>
+                {conEdad ? (
+                  <div>
+                    <dt className="hud">Tu edad</dt>
+                    <dd className="num mt-1 text-lg text-magenta">{fp(userRate, 0)}</dd>
+                  </div>
+                ) : (
+                  <div>
+                    <dt className="hud">18–29 años</dt>
+                    <dd className="num mt-1 text-lg text-ink">{fp(view.jovenesRate, 0)}</dd>
+                  </div>
+                )}
                 <div>
                   <dt className="hud">Todas las edades</dt>
                   <dd className="num mt-1 text-lg text-ink">{fp(view.scopeRate, 0)}</dd>
@@ -145,7 +180,15 @@ export const CurvaEdad = forwardRef<HTMLElement>(function CurvaEdad(_, ref) {
               </dl>
             )}
 
-            {view && view.edadTot.ln > 0 && view.edadTot.ln < 1500 && (
+            {!conEdad && (
+              <div className="rv" style={delay(300)}>
+                <NotaPromedio campo="campo-edad">
+                  Promedio de todas las edades · Escribe la tuya
+                </NotaPromedio>
+              </div>
+            )}
+
+            {view?.edadTot && view.edadTot.ln > 0 && view.edadTot.ln < 1500 && (
               <p className="rv mt-3 max-w-md text-sm text-ink-3" style={delay(300)}>
                 A esta edad hay pocas personas en la lista nominal ({fn(view.edadTot.ln)}), así que
                 la cifra puede cambiar bastante de una elección a otra.
@@ -192,18 +235,20 @@ export const CurvaEdad = forwardRef<HTMLElement>(function CurvaEdad(_, ref) {
                       cursor={{ stroke: "var(--line-strong)" }}
                       isAnimationActive={false}
                     />
-                    <Line
-                      dataKey="nacional"
-                      stroke="var(--reference)"
-                      strokeWidth={1.5}
-                      strokeDasharray="4 4"
-                      dot={false}
-                      activeDot={false}
-                      isAnimationActive={animar}
-                      animationDuration={duracion}
-                      animationEasing={drawn ? EASE_OUT : EASE_IN_OUT}
-                      connectNulls
-                    />
+                    {estado != null && (
+                      <Line
+                        dataKey="nacional"
+                        stroke="var(--reference)"
+                        strokeWidth={1.5}
+                        strokeDasharray="4 4"
+                        dot={false}
+                        activeDot={false}
+                        isAnimationActive={animar}
+                        animationDuration={duracion}
+                        animationEasing={drawn ? EASE_OUT : EASE_IN_OUT}
+                        connectNulls
+                      />
+                    )}
                     <Area
                       dataKey="rate"
                       type="monotone"
@@ -216,13 +261,15 @@ export const CurvaEdad = forwardRef<HTMLElement>(function CurvaEdad(_, ref) {
                       onAnimationEnd={() => setDrawn(true)}
                       connectNulls
                     />
-                    <ReferenceLine
-                      x={edad}
-                      stroke="var(--magenta)"
-                      strokeOpacity={0.45}
-                      strokeDasharray="2 4"
-                    />
-                    {userRate != null && (drawn || !animar) && (
+                    {conEdad && (
+                      <ReferenceLine
+                        x={edad}
+                        stroke="var(--magenta)"
+                        strokeOpacity={0.45}
+                        strokeDasharray="2 4"
+                      />
+                    )}
+                    {conEdad && userRate != null && (drawn || !animar) && (
                       <ReferenceDot x={edad} y={userRate} r={6} shape={PuntoTu} />
                     )}
                   </ComposedChart>
@@ -233,13 +280,17 @@ export const CurvaEdad = forwardRef<HTMLElement>(function CurvaEdad(_, ref) {
               <span className="flex items-center gap-2">
                 <i className="inline-block h-0.5 w-5 bg-violet" /> {lugar}
               </span>
-              <span className="flex items-center gap-2">
-                <i className="inline-block w-5 border-t border-dashed border-reference" /> Promedio
-                nacional
-              </span>
-              <span className="flex items-center gap-2">
-                <i className="inline-block size-2 rounded-full bg-magenta" /> Tú
-              </span>
+              {estado != null && (
+                <span className="flex items-center gap-2">
+                  <i className="inline-block w-5 border-t border-dashed border-reference" />{" "}
+                  Promedio nacional
+                </span>
+              )}
+              {conEdad && (
+                <span className="flex items-center gap-2">
+                  <i className="inline-block size-2 rounded-full bg-magenta" /> Tú
+                </span>
+              )}
             </div>
           </div>
         </div>

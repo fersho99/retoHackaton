@@ -1,21 +1,19 @@
 "use client";
 
 import Image from "next/image";
-import { useState, type CSSProperties } from "react";
+import type { CSSProperties } from "react";
+import { CampoEdad, CampoSelect } from "@/components/ui/campo";
 import { ESTADOS } from "@/lib/estados";
 import { useSelection } from "@/lib/selection";
 
 const LINES = ["No elegir,", "también es", "una elección."];
+const OPCIONES_ESTADO = ESTADOS.map(([value, label]) => ({ value, label }));
 
 const delay = (ms: number) => ({ "--d": `${ms}ms` }) as CSSProperties;
 
 export function Hero({ onStart }: { onStart: () => void }) {
   const { estado, edad, setEstado, setEdad } = useSelection();
-  const [edadTxt, setEdadTxt] = useState(String(edad));
-
-  const parsed = Number.parseInt(edadTxt, 10);
-  const edadValida = Number.isFinite(parsed) && parsed >= 18 && parsed <= 90;
-  const ready = estado != null && edadValida;
+  const personalizado = estado != null || edad != null;
 
   return (
     <section className="grain relative flex min-h-svh flex-col overflow-hidden">
@@ -61,47 +59,24 @@ export function Hero({ onStart }: { onStart: () => void }) {
       </div>
 
       <div
-        className="a-fade-up relative grid grid-cols-1 bg-surface/70 sm:grid-cols-[1fr_10rem_auto]"
+        className="a-fade-up relative grid grid-cols-1 bg-surface/70 sm:grid-cols-[1fr_15rem_19rem]"
         style={delay(650)}
       >
-        <label className="flex flex-col gap-1 px-6 py-4 sm:px-10">
-          <span className="hud">Tu estado</span>
-          <select
-            value={estado ?? ""}
-            onChange={(e) => setEstado(Number(e.target.value))}
-            className="appearance-none bg-transparent text-lg text-ink outline-none"
-          >
-            <option value="" disabled className="bg-surface">
-              Elige tu estado
-            </option>
-            {ESTADOS.map(([c, n]) => (
-              <option key={c} value={c} className="bg-surface">
-                {n}
-              </option>
-            ))}
-          </select>
-        </label>
-        <label className="flex flex-col gap-1 px-6 py-4">
-          <span className="hud">Tu edad</span>
-          <input
-            inputMode="numeric"
-            value={edadTxt}
-            onChange={(e) => {
-              const txt = e.target.value.replace(/\D/g, "").slice(0, 2);
-              setEdadTxt(txt);
-              const n = Number.parseInt(txt, 10);
-              if (n >= 18 && n <= 90) setEdad(n);
-            }}
-            onBlur={() => setEdadTxt(String(edad))}
-            className="num bg-transparent text-lg text-ink outline-none"
-          />
-        </label>
+        <CampoSelect
+          id="campo-estado"
+          etiqueta="Tu estado"
+          value={estado}
+          onChange={setEstado}
+          vacio="Todo el país"
+          opciones={OPCIONES_ESTADO}
+          className="px-6 py-4 sm:px-10"
+        />
+        <CampoEdad id="campo-edad" value={edad} onChange={setEdad} className="px-6 py-4" />
         <button
-          disabled={!ready}
           onClick={onStart}
-          className="pressable flex items-center justify-center gap-3 bg-violet px-10 py-5 font-semibold text-bg disabled:cursor-not-allowed disabled:opacity-40"
+          className="pressable flex items-center justify-center gap-3 bg-violet px-10 py-5 font-semibold whitespace-nowrap text-bg"
         >
-          Ver mi impacto <span aria-hidden>↓</span>
+          {personalizado ? "Ver mi impacto" : "Ver el promedio nacional"} <span aria-hidden>↓</span>
         </button>
       </div>
     </section>
