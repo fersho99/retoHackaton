@@ -106,6 +106,25 @@ export function totalsForAge(
   return out;
 }
 
+/** Totales para un rango de edades [desde, hasta] dentro de un estado (o nacional). */
+export function totalsForAgeRange(
+  cube: Cube,
+  entCode: number | null,
+  yearIdx: number,
+  desde: number,
+  hasta: number,
+): Totals {
+  const out = emptyTotals();
+  const n = cube.y.length;
+  for (let i = 0; i < n; i++) {
+    if (cube.y[i] !== yearIdx) continue;
+    if (entCode != null && cube.e[i] !== entCode) continue;
+    if (cube.a[i] < desde || cube.a[i] > hasta) continue;
+    addTotals(out, { ln: cube.ln[i], sv: cube.sv[i], nv: cube.nv[i] });
+  }
+  return out;
+}
+
 /** Promedio nacional por grupo de edad (banda 0–4), calculado desde el cubo de edad exacta. */
 export function nationalBandTotals(cube: Cube, band: number, yearIdx: number): Totals {
   const out = emptyTotals();

@@ -151,12 +151,99 @@ button:not(:disabled) {
     color var(--dur-small) ease;
 }
 
+/* Slider del simulador. El tamaño del pulgar debe coincidir con PULGAR en simulador.tsx */
+.rango {
+  appearance: none;
+  width: 100%;
+  height: 44px;
+  background: transparent;
+  cursor: pointer;
+  --pista: linear-gradient(
+    to right,
+    var(--magenta) 0 var(--hoy),
+    color-mix(in oklab, var(--magenta) 45%, var(--bg)) var(--hoy) var(--fill),
+    rgb(255 255 255 / 0.1) var(--fill)
+  );
+}
+.rango:focus-visible {
+  outline: 2px solid var(--violet);
+  outline-offset: 4px;
+  border-radius: 999px;
+}
+.rango::-webkit-slider-runnable-track {
+  height: 8px;
+  border-radius: 999px;
+  background: var(--pista);
+}
+.rango::-moz-range-track {
+  height: 8px;
+  border-radius: 999px;
+  background: var(--pista);
+}
+.rango::-webkit-slider-thumb {
+  appearance: none;
+  width: 28px;
+  height: 28px;
+  margin-top: -10px;
+  border-radius: 999px;
+  background: var(--ink);
+  box-shadow: 0 0 0 6px color-mix(in oklab, var(--magenta) 40%, transparent);
+  transition: transform var(--dur-press) var(--ease-out);
+}
+.rango::-moz-range-thumb {
+  width: 28px;
+  height: 28px;
+  border: 0;
+  border-radius: 999px;
+  background: var(--ink);
+  box-shadow: 0 0 0 6px color-mix(in oklab, var(--magenta) 40%, transparent);
+  transition: transform var(--dur-press) var(--ease-out);
+}
+/* Al tomarlo crece un poco: confirma que lo tienes */
+.rango:active::-webkit-slider-thumb {
+  transform: scale(1.12);
+}
+.rango:active::-moz-range-thumb {
+  transform: scale(1.12);
+}
+
+.ancla {
+  transition:
+    transform var(--dur-press) var(--ease-out),
+    background-color var(--dur-small) ease,
+    color var(--dur-small) ease;
+}
+.ancla:focus-visible {
+  outline: 2px solid var(--violet);
+  outline-offset: 2px;
+}
+
+/* Las 100 personas del simulador */
+.persona {
+  transition: background-color 120ms ease;
+}
+.persona.is-voto {
+  background-color: var(--magenta);
+}
+.persona.is-nuevo {
+  background-color: color-mix(in oklab, var(--magenta) 45%, var(--bg));
+}
+.persona.is-no {
+  background-color: rgb(255 255 255 / 0.1);
+}
+/* Primera vez: se encienden una tras otra */
+[data-primera] .persona {
+  transition-duration: 300ms;
+  transition-delay: calc(var(--i) * 8ms);
+}
+
 /* Hover solo con mouse real: en táctil el tap dispara hover falso */
 @media (hover: hover) and (pointer: fine) {
   .campo:hover:not(:focus-within) {
     background-color: var(--surface-2);
   }
-  .paso:not(:disabled):hover {
+  .paso:not(:disabled):hover,
+  .ancla[aria-pressed="false"]:hover {
     background-color: rgb(255 255 255 / 0.14);
   }
 }
@@ -165,6 +252,15 @@ button:not(:disabled) {
 @media (prefers-reduced-motion: reduce) {
   .pressable:active {
     transform: none;
+  }
+  .rango:active::-webkit-slider-thumb {
+    transform: none;
+  }
+  .rango:active::-moz-range-thumb {
+    transform: none;
+  }
+  [data-primera] .persona {
+    transition-delay: 0ms;
   }
 }
 
