@@ -1,19 +1,21 @@
 "use client";
 
-import type { CSSProperties } from "react";
+import { useState, type CSSProperties } from "react";
 import { ESTADOS } from "@/lib/estados";
-import type { useLandingForm } from "./use-landing-form";
+import { useSelection } from "@/lib/selection";
 
 const LINES = ["No elegir,", "también es", "una elección."];
 
 const delay = (ms: number) => ({ "--d": `${ms}ms` }) as CSSProperties;
 
-type Props = {
-  form: ReturnType<typeof useLandingForm>;
-  onStart: () => void;
-};
+export function Hero({ onStart }: { onStart: () => void }) {
+  const { estado, edad, setEstado, setEdad } = useSelection();
+  const [edadTxt, setEdadTxt] = useState(String(edad));
 
-export function Hero({ form: f, onStart }: Props) {
+  const parsed = Number.parseInt(edadTxt, 10);
+  const edadValida = Number.isFinite(parsed) && parsed >= 18 && parsed <= 90;
+  const ready = estado != null && edadValida;
+
   return (
     <section className="relative flex min-h-svh flex-col overflow-hidden">
       <div
@@ -56,8 +58,8 @@ export function Hero({ form: f, onStart }: Props) {
         <label className="flex flex-col gap-1 px-6 py-4 sm:px-10">
           <span className="hud">Tu estado</span>
           <select
-            value={f.estado ?? ""}
-            onChange={(e) => f.setEstado(Number(e.target.value))}
+            value={estado ?? ""}
+            onChange={(e) => setEstado(Number(e.target.value))}
             className="appearance-none bg-transparent text-lg text-ink outline-none"
           >
             <option value="" disabled className="bg-surface">
@@ -74,14 +76,19 @@ export function Hero({ form: f, onStart }: Props) {
           <span className="hud">Tu edad</span>
           <input
             inputMode="numeric"
-            value={f.edadTxt}
-            onChange={(e) => f.setEdadTxt(e.target.value.replace(/\D/g, "").slice(0, 2))}
-            onBlur={f.commitEdad}
+            value={edadTxt}
+            onChange={(e) => {
+              const txt = e.target.value.replace(/\D/g, "").slice(0, 2);
+              setEdadTxt(txt);
+              const n = Number.parseInt(txt, 10);
+              if (n >= 18 && n <= 90) setEdad(n);
+            }}
+            onBlur={() => setEdadTxt(String(edad))}
             className="num bg-transparent text-lg text-ink outline-none"
           />
         </label>
         <button
-          disabled={!f.ready}
+          disabled={!ready}
           onClick={onStart}
           className="pressable flex items-center justify-center gap-3 bg-violet px-10 py-5 font-semibold text-bg disabled:cursor-not-allowed disabled:opacity-40"
         >

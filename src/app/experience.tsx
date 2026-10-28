@@ -1,30 +1,23 @@
 "use client";
 
 import { useRef } from "react";
+import { CurvaEdad } from "@/components/curva/curva-edad";
 import { Hero } from "@/components/landing/hero";
-import { useLandingForm } from "@/components/landing/use-landing-form";
+import { PesoMunicipio } from "@/components/municipio/peso-municipio";
 
 export function Experience() {
-  const form = useLandingForm();
-  const nextRef = useRef<HTMLElement>(null);
+  const curvaRef = useRef<HTMLElement>(null);
 
   function start() {
     const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    nextRef.current?.scrollIntoView({ behavior: reduce ? "auto" : "smooth" });
+    curvaRef.current?.scrollIntoView({ behavior: reduce ? "auto" : "smooth" });
   }
 
   return (
     <main>
-      <Hero form={form} onStart={start} />
-      <section
-        ref={nextRef}
-        className="flex min-h-svh flex-col justify-center border-t border-line px-6 sm:px-10"
-      >
-        <p className="hud">Participación por edad · {form.nombre ?? "Nacional"} · 2024</p>
-        <p className="mt-4 max-w-2xl text-2xl text-ink-2">
-          Tu punto en la curva: <span className="num text-magenta">{form.edad}</span> años.
-        </p>
-      </section>
+      <Hero onStart={start} />
+      <CurvaEdad ref={curvaRef} />
+      <PesoMunicipio />
     </main>
   );
 }
