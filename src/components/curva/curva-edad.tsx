@@ -193,7 +193,7 @@ export const CurvaEdad = forwardRef<HTMLElement>(function CurvaEdad(_, ref) {
                 <ResponsiveContainer width="100%" height="100%">
                   <ComposedChart
                     data={view.data}
-                    margin={{ top: 12, right: 8, left: -12, bottom: 0 }}
+                    margin={{ top: 12, right: 8, left: 0, bottom: 0 }}
                   >
                     <defs>
                       <linearGradient id="relleno-curva" x1="0" y1="0" x2="0" y2="1">

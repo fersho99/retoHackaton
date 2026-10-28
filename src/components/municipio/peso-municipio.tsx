@@ -218,7 +218,7 @@ export const PesoMunicipio = forwardRef<HTMLElement>(function PesoMunicipio(_, r
           <div className="rv h-[320px] sm:h-[420px]" style={delay(200)}>
             {view && visible && (
               <ResponsiveContainer width="100%" height="100%">
-                <BarChart data={view.data} margin={{ top: 12, right: 8, left: -12, bottom: 0 }}>
+                <BarChart data={view.data} margin={{ top: 12, right: 8, left: 0, bottom: 0 }}>
                   <CartesianGrid stroke="var(--line)" vertical={false} />
                   <XAxis
                     dataKey="nombre"
