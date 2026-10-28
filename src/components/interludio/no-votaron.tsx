@@ -1,9 +1,9 @@
 "use client";
 
-import Image from "next/image";
 import { useMemo, type CSSProperties } from "react";
 import { NotaPromedio } from "@/components/ui/campo";
 import { Cifra } from "@/components/ui/cifra";
+import { Foto } from "@/components/ui/foto";
 import { totalsForAge, totalsForScope } from "@/lib/data";
 import { nombreEstado } from "@/lib/estados";
 import { enLugar, useSelection } from "@/lib/selection";
@@ -30,30 +30,20 @@ export function NoVotaron() {
   }, [cube, estado, edad]);
 
   return (
-    <section className="relative flex min-h-[80svh] items-center overflow-hidden px-6 py-24 sm:px-10">
-      <div
-        aria-hidden
-        className="pointer-events-none absolute inset-0"
+    <section className="relative flex min-h-[80svh] items-center overflow-clip px-6 py-24 sm:px-10">
+      {/* Espejo en el contenedor: la foto usa scale para su propia animación */}
+      <Foto
+        src="/img/boleta.jpg"
+        sizes="100vw"
+        className="inset-0 -scale-x-100 opacity-80"
         style={{ maskImage: FADE, WebkitMaskImage: FADE }}
-      >
-        <Image
-          src="/img/boleta.jpg"
-          alt=""
-          fill
-          sizes="100vw"
-          className="-scale-x-100 object-cover opacity-80"
-        />
-      </div>
+      />
 
       <div aria-hidden className="pointer-events-none absolute inset-0 bg-bg/70 sm:hidden" />
 
       <div ref={rvRef} data-visible={visible} className="contenido relative">
-        <p className="hud rv">
-          Lista nominal · {nombre ?? "Todo el país"} ·{" "}
-          {edad != null ? `${edad} años` : "Todas las edades"} · 2024
-        </p>
         <p
-          className="rv display num mt-6 text-[20vw] font-black sm:text-[12vw] lg:text-[9rem]"
+          className="rv display num text-[20vw] font-black sm:text-[12vw] lg:text-[9rem]"
           style={delay(80)}
         >
           <Cifra value={faltan} visible={visible} />
@@ -66,12 +56,14 @@ export function NoVotaron() {
               de <span className="num text-ink">{edad}</span> años
             </>
           )}{" "}
-          <span className="text-ink">{enLugar(nombre)}</span> estaban inscritas para votar y no lo
-          hicieron.
+          <span className="text-ink">{enLugar(nombre)}</span> estaban inscritas para votar en 2024 y
+          no lo hicieron.
         </p>
         {edad == null && (
           <div className="rv" style={delay(240)}>
-            <NotaPromedio campo="campo-edad">¿Cuántas tienen tu edad? Escríbela</NotaPromedio>
+            <NotaPromedio campo="campo-edad">
+              ¿Cuántas tienen tu edad? Escríbela arriba
+            </NotaPromedio>
           </div>
         )}
       </div>

@@ -26,7 +26,6 @@ import {
   nationalBandTotals,
   rate,
 } from "@/lib/data";
-import { nombreEstado } from "@/lib/estados";
 import { EASE_OUT } from "@/lib/motion";
 import { useSelection } from "@/lib/selection";
 import type { Totals } from "@/lib/types";
@@ -34,7 +33,7 @@ import { useCube, useMuni } from "@/lib/use-data";
 import { useReveal } from "@/lib/use-reveal";
 
 const YEAR_IDX = 5; // 2024
-const TICK = { fill: "var(--ink-3)", fontSize: 11, fontFamily: "var(--font-mono)" };
+const TICK = { fill: "var(--ink-3)", fontSize: 12, fontFamily: "var(--font-archivo)" };
 const delay = (ms: number) => ({ "--d": `${ms}ms` }) as CSSProperties;
 
 function Tip({ active, payload }: TooltipContentProps) {
@@ -129,7 +128,6 @@ export const PesoMunicipio = forwardRef<HTMLElement>(function PesoMunicipio(_, r
     };
   }, [cube, muni, estado, mi, banda]);
 
-  const lugarEstado = nombreEstado(estado);
   const deLugar = view?.nombre ? `de ${view.nombre}` : "del país";
   const grupo = banda === 4 ? "60 años o más" : banda != null ? `${BANDN[banda]} años` : "";
   const aportaMenos =
@@ -139,12 +137,7 @@ export const PesoMunicipio = forwardRef<HTMLElement>(function PesoMunicipio(_, r
   return (
     <section ref={ref} className="flex min-h-svh flex-col justify-center px-6 py-24 sm:px-10">
       <div ref={rvRef} data-visible={visible} className="contenido">
-        <p className="hud rv">
-          Participación por grupo de edad ·{" "}
-          {view?.nombre ? `${view.nombre} · ${lugarEstado}` : "Todo el país"} · 2024
-        </p>
-
-        <div className="mt-8 grid grid-cols-[minmax(0,1fr)] items-center gap-10 lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] lg:gap-16">
+        <div className="grid grid-cols-[minmax(0,1fr)] items-center gap-10 lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] lg:gap-16">
           <div>
             <div className="rv max-w-md" style={delay(80)}>
               {estado != null ? (
@@ -157,7 +150,7 @@ export const PesoMunicipio = forwardRef<HTMLElement>(function PesoMunicipio(_, r
                 />
               ) : (
                 <NotaPromedio campo="campo-estado" className="py-3">
-                  Elige tu estado para ver tu municipio
+                  Elige tu estado arriba para ver tu municipio
                 </NotaPromedio>
               )}
             </div>
@@ -190,7 +183,7 @@ export const PesoMunicipio = forwardRef<HTMLElement>(function PesoMunicipio(_, r
                       <span className="num text-magenta">
                         {view.partVotos != null ? Math.round(view.partVotos) : "—"}%
                       </span>{" "}
-                      de los votos.
+                      de los votos en 2024.
                     </p>
                     <p className="rv mt-6 max-w-md text-ink-2" style={delay(320)}>
                       Votó el <span className="num text-ink">{fp(view.tasa, 0)}</span> de tu grupo;{" "}
@@ -213,7 +206,7 @@ export const PesoMunicipio = forwardRef<HTMLElement>(function PesoMunicipio(_, r
                     </p>
                     <div className="rv" style={delay(360)}>
                       <NotaPromedio campo="campo-edad">
-                        Todas las edades · Escribe la tuya para ver tu grupo
+                        ¿Y tu grupo de edad? Escribe tu edad arriba
                       </NotaPromedio>
                     </div>
                   </>

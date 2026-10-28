@@ -49,7 +49,7 @@ export function Experience() {
       <Compartir />
       <footer className="px-6 py-10 sm:px-10">
         <p className="contenido hud">
-          Fuente de datos: INE · Conteos Censales de Participación Ciudadana 2009—2024
+          Datos: Conteos Censales de Participación Ciudadana del INE, 2009–2024.
         </p>
       </footer>
     </main>

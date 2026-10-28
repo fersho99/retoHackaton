@@ -16,14 +16,14 @@ export function Hero({ onStart }: { onStart: () => void }) {
   const personalizado = estado != null || edad != null;
 
   return (
-    <section className="grain relative flex min-h-svh flex-col overflow-hidden">
+    <section className="grain relative flex min-h-svh flex-col overflow-clip">
       <Image
         src="/img/hero-multitud.jpg"
         alt=""
         fill
         priority
         sizes="100vw"
-        className="a-fade pointer-events-none object-cover object-[72%_center]"
+        className="foto-portada pointer-events-none object-cover object-[72%_center]"
       />
       <div
         aria-hidden
@@ -34,13 +34,10 @@ export function Hero({ onStart }: { onStart: () => void }) {
         className="pointer-events-none absolute inset-x-0 top-0 h-32 bg-linear-to-b from-bg/80 to-transparent"
       />
 
-      <header className="relative flex items-center justify-between gap-4 px-6 pt-6 sm:px-10">
-        <span className="hud a-fade whitespace-nowrap" style={delay(500)}>
-          Datos INE · 2009—2024
-        </span>
-        <span className="hud a-fade num whitespace-nowrap" style={delay(600)}>
-          <span className="hidden sm:inline">Elección federal · </span>02.06.2024
-        </span>
+      <header className="relative px-6 pt-6 sm:px-10">
+        <p className="hud a-fade text-ink-2!" style={delay(500)}>
+          Elección federal del 2 de junio de 2024
+        </p>
       </header>
 
       <div className="relative flex flex-1 flex-col justify-center px-6 sm:px-10">

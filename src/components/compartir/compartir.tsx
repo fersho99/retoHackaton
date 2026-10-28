@@ -74,9 +74,8 @@ export function Compartir() {
         className="contenido grid grid-cols-[minmax(0,1fr)] items-center gap-12 lg:grid-cols-[auto_auto] lg:justify-start lg:gap-20"
       >
         <div>
-          <p className="hud rv">Tu tarjeta · 1080 × 1920</p>
           <h2
-            className="rv display mt-6 text-[14vw] font-black uppercase sm:text-[9vw] lg:text-[7rem]"
+            className="rv display text-[14vw] font-black uppercase sm:text-[9vw] lg:text-[7rem]"
             style={delay(80)}
           >
             Pásalo.

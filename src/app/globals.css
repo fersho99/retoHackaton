@@ -54,7 +54,6 @@
   --color-reference: var(--reference);
 
   --font-sans: var(--font-archivo), system-ui, sans-serif;
-  --font-mono: var(--font-jetbrains), ui-monospace, monospace;
 
   --radius-sm: 4px;
   --radius-md: 10px;
@@ -102,13 +101,62 @@ body {
   margin-inline: auto;
 }
 
-/* Etiquetas técnicas tipo HUD */
+/* Etiquetas pequeñas: misma familia que el texto, sin mayúsculas forzadas */
 .hud {
-  font-family: var(--font-mono);
-  font-size: 11px;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
+  font-family: var(--font-archivo), system-ui, sans-serif;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  line-height: 1.4;
   color: var(--ink-3);
+}
+
+/* Fotos de fondo: se asientan al aparecer y se desplazan un poco con el scroll.
+   Se usan las propiedades individuales scale/translate para que no choquen entre sí. */
+.foto {
+  opacity: 0;
+  scale: 1.12;
+  transition:
+    opacity 900ms var(--ease-out),
+    scale 1600ms var(--ease-out);
+}
+[data-visible="true"] > .foto {
+  opacity: 1;
+  scale: 1.05;
+}
+/* La portada no espera a JavaScript para animarse */
+.foto-portada {
+  animation: asentar 1800ms var(--ease-out) both;
+}
+@keyframes asentar {
+  from {
+    opacity: 0;
+    scale: 1.12;
+  }
+  to {
+    opacity: 1;
+    scale: 1.05;
+  }
+}
+@keyframes paralaje {
+  from {
+    translate: 0 -2.5%;
+  }
+  to {
+    translate: 0 2.5%;
+  }
+}
+/* Paralaje ligado al scroll: corre fuera del hilo principal; donde no hay soporte, no pasa nada */
+@supports (animation-timeline: view()) {
+  .foto {
+    animation: paralaje linear both;
+    animation-timeline: view();
+  }
+  .foto-portada {
+    animation:
+      asentar 1800ms var(--ease-out) both,
+      paralaje linear both;
+    animation-timeline: auto, view();
+  }
 }
 
 /* Todo lo presionable responde al toque */
@@ -284,6 +332,16 @@ button:not(:disabled) {
   }
   [data-primera] .persona {
     transition-delay: 0ms;
+  }
+  .foto,
+  [data-visible="true"] > .foto {
+    scale: 1;
+    animation: none;
+    transition: opacity 400ms ease;
+  }
+  .foto-portada {
+    scale: 1;
+    animation: fade 400ms ease both;
   }
 }
 

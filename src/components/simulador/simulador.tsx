@@ -27,12 +27,8 @@ export function Simulador() {
   return (
     <section className="flex min-h-svh flex-col justify-center px-6 py-24 sm:px-10">
       <div ref={rvRef} data-visible={visible} className="contenido">
-        <p className="hud rv">
-          Simulación · {m?.grupo.etiqueta ?? "—"} · {nombreEstado(estado) ?? "Todo el país"} ·
-          Elección 2024
-        </p>
         <h2
-          className="rv display mt-6 max-w-3xl text-[11vw] font-black uppercase sm:text-[7vw] lg:text-[5.5rem]"
+          className="rv display max-w-3xl text-[11vw] font-black uppercase sm:text-[7vw] lg:text-[5.5rem]"
           style={delay(80)}
         >
           {edad != null ? "¿Y si tu generación votara?" : "¿Y si los jóvenes votaran?"}

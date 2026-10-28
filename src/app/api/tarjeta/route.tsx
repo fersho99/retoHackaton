@@ -29,12 +29,11 @@ let recursos: Promise<Recursos> | null = null;
 function cargar(): Promise<Recursos> {
   recursos ??= (async () => {
     const raiz = process.cwd();
-    const [cube, fondo, negra, media, mono] = await Promise.all([
+    const [cube, fondo, negra, media] = await Promise.all([
       readFile(join(raiz, "public/data/cube.json"), "utf8"),
       readFile(join(raiz, "public/img/compartir-fondo.jpg")),
       readFile(join(raiz, "assets/fonts/Archivo-CondensedBlack.woff")),
       readFile(join(raiz, "assets/fonts/Archivo-Medium.woff")),
-      readFile(join(raiz, "assets/fonts/JetBrainsMono-Medium.woff")),
     ]);
     return {
       cube: JSON.parse(cube) as Cube,
@@ -42,7 +41,6 @@ function cargar(): Promise<Recursos> {
       fuentes: [
         { name: "Display", data: negra, weight: 900 },
         { name: "Texto", data: media, weight: 500 },
-        { name: "Mono", data: mono, weight: 500 },
       ],
     };
   })();
@@ -64,11 +62,7 @@ export async function GET(req: NextRequest) {
   const colorCifra = d.conEdad ? C.magenta : C.ink;
   const cifra = d.tasa == null ? "—" : `${d.tasa}%`;
 
-  const hud = {
-    fontFamily: "Mono",
-    color: C.ink3,
-    textTransform: "uppercase" as const,
-  };
+  const etiqueta = { fontFamily: "Texto", color: C.ink3 };
 
   const imagen = og ? (
     <div
@@ -84,9 +78,7 @@ export async function GET(req: NextRequest) {
         }}
       />
       <div style={{ display: "flex", flexDirection: "column", padding: 64, width: 720 }}>
-        <div style={{ ...hud, fontSize: 20, letterSpacing: 3 }}>
-          Datos INE · Elección federal 2024
-        </div>
+        <div style={{ ...etiqueta, fontSize: 24 }}>Elección federal de 2024</div>
         <div
           style={{
             fontFamily: "Display",
@@ -109,7 +101,7 @@ export async function GET(req: NextRequest) {
         >
           {d.frase}
         </div>
-        <div style={{ ...hud, fontSize: 20, letterSpacing: 2, marginTop: "auto" }}>{sitio}</div>
+        <div style={{ ...etiqueta, fontSize: 24, marginTop: "auto" }}>{sitio} · Datos del INE</div>
       </div>
     </div>
   ) : (
@@ -137,9 +129,7 @@ export async function GET(req: NextRequest) {
           backgroundImage: `linear-gradient(to bottom, rgba(8,6,13,0.55) 0%, rgba(8,6,13,0) 20%, rgba(8,6,13,0) 50%, ${C.bg} 94%)`,
         }}
       />
-      <div style={{ ...hud, fontSize: 28, letterSpacing: 4 }}>
-        Datos INE · Elección federal 2024
-      </div>
+      <div style={{ ...etiqueta, fontSize: 34 }}>Elección federal de 2024</div>
 
       <div style={{ display: "flex", flexDirection: "column", marginTop: "auto" }}>
         <div style={{ fontFamily: "Display", fontSize: 360, lineHeight: 0.88, color: colorCifra }}>
@@ -176,13 +166,12 @@ export async function GET(req: NextRequest) {
             display: "flex",
             justifyContent: "space-between",
             marginTop: 96,
-            ...hud,
-            fontSize: 24,
-            letterSpacing: 3,
+            ...etiqueta,
+            fontSize: 30,
           }}
         >
           <span>{sitio}</span>
-          <span>Fuente: INE</span>
+          <span>Datos del INE</span>
         </div>
       </div>
     </div>

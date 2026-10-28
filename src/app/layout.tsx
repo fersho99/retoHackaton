@@ -1,16 +1,11 @@
 import type { Metadata, Viewport } from "next";
-import { Archivo, JetBrains_Mono } from "next/font/google";
+import { Archivo } from "next/font/google";
 import "./globals.css";
 
 const archivo = Archivo({
   variable: "--font-archivo",
   subsets: ["latin"],
   axes: ["wdth"],
-});
-
-const jetbrains = JetBrains_Mono({
-  variable: "--font-jetbrains",
-  subsets: ["latin"],
 });
 
 const sitio =
@@ -33,7 +28,7 @@ export const viewport: Viewport = {
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    <html lang="es" className={`${archivo.variable} ${jetbrains.variable} h-full`}>
+    <html lang="es" className={`${archivo.variable} h-full`}>
       <body className="min-h-full flex flex-col">{children}</body>
     </html>
   );

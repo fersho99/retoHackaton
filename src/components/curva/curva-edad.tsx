@@ -1,6 +1,6 @@
 "use client";
 
-import Image from "next/image";
+import { Foto } from "@/components/ui/foto";
 import { forwardRef, useMemo, useState, type CSSProperties } from "react";
 import {
   Area,
@@ -27,8 +27,10 @@ import { Cifra } from "@/components/ui/cifra";
 import { usePrefersReducedMotion } from "@number-flow/react";
 
 const YEAR_IDX = 5; // 2024
-const TICK = { fill: "var(--ink-3)", fontSize: 11, fontFamily: "var(--font-mono)" };
+const TICK = { fill: "var(--ink-3)", fontSize: 12, fontFamily: "var(--font-archivo)" };
 const delay = (ms: number) => ({ "--d": `${ms}ms` }) as CSSProperties;
+// Se desvanece arriba (donde termina la portada) y abajo (donde empieza la gráfica)
+const VALLE_MASCARA = "linear-gradient(to bottom, transparent, black 14%, black 45%, transparent)";
 
 function PuntoTu({ cx, cy }: { cx?: number; cy?: number }) {
   if (cx == null || cy == null) return <g />;
@@ -109,26 +111,17 @@ export const CurvaEdad = forwardRef<HTMLElement>(function CurvaEdad(_, ref) {
   return (
     <section
       ref={ref}
-      className="relative flex min-h-svh flex-col justify-center overflow-hidden px-6 pb-24 pt-[42svh] sm:px-10"
+      className="relative flex min-h-svh flex-col justify-center overflow-clip px-6 pb-24 pt-[42svh] sm:px-10"
     >
-      <div
-        aria-hidden
-        className="pointer-events-none absolute inset-x-0 top-0 h-[46svh] opacity-80"
-        style={{
-          maskImage: "linear-gradient(to bottom, black 45%, transparent 100%)",
-          WebkitMaskImage: "linear-gradient(to bottom, black 45%, transparent 100%)",
-        }}
-      >
-        <Image
-          src="/img/valle.jpg"
-          alt=""
-          fill
-          sizes="100vw"
-          className="object-cover object-center"
-        />
-      </div>
+      <Foto
+        src="/img/valle.jpg"
+        sizes="100vw"
+        className="inset-x-0 top-0 h-[46svh] opacity-80"
+        style={{ maskImage: VALLE_MASCARA, WebkitMaskImage: VALLE_MASCARA }}
+        imgClassName="object-center"
+      />
       <div ref={rvRef} data-visible={visible} className="contenido relative">
-        <p className="hud rv">Participación por edad · {lugar} · 2024</p>
+        <p className="hud rv">Participación por edad {enLugar(nombre)}, elección de 2024</p>
 
         <div className="mt-8 grid grid-cols-[minmax(0,1fr)] items-center gap-10 lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] lg:gap-16">
           <div>
@@ -174,7 +167,7 @@ export const CurvaEdad = forwardRef<HTMLElement>(function CurvaEdad(_, ref) {
                   <dd className="num mt-1 text-lg text-ink">{fp(view.scopeRate, 0)}</dd>
                 </div>
                 <div>
-                  <dt className="hud">Máximo · {view.peak.age} años</dt>
+                  <dt className="hud">Máximo, a los {view.peak.age} años</dt>
                   <dd className="num mt-1 text-lg text-violet-soft">{fp(view.peak.rate, 0)}</dd>
                 </div>
               </dl>
@@ -182,9 +175,7 @@ export const CurvaEdad = forwardRef<HTMLElement>(function CurvaEdad(_, ref) {
 
             {!conEdad && (
               <div className="rv" style={delay(300)}>
-                <NotaPromedio campo="campo-edad">
-                  Promedio de todas las edades · Escribe la tuya
-                </NotaPromedio>
+                <NotaPromedio campo="campo-edad">¿Y a tu edad? Escríbela arriba</NotaPromedio>
               </div>
             )}
 
