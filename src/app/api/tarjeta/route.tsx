@@ -104,7 +104,7 @@ export async function GET(req: NextRequest) {
         >
           {d.frase}
         </div>
-        <div style={{ ...etiqueta, fontSize: 24, marginTop: "auto" }}>{sitio} · Datos del INE</div>
+        <div style={{ ...etiqueta, fontSize: 24, marginTop: "auto" }}>{`${sitio} · Datos del INE`}</div>
       </div>
     </div>
   ) : (
