@@ -218,6 +218,20 @@ button:not(:disabled) {
   outline-offset: 2px;
 }
 
+.boton-sec {
+  transition:
+    transform var(--dur-press) var(--ease-out),
+    background-color var(--dur-small) ease;
+}
+.boton-sec:focus-visible {
+  outline: 2px solid var(--violet);
+  outline-offset: 2px;
+}
+/* La tarjeta aparece cuando el servidor termina de generarla, sin parpadeo de carga */
+.tarjeta-img {
+  transition: opacity var(--dur-ui) ease;
+}
+
 /* Las 100 personas del simulador */
 .persona {
   transition: background-color 120ms ease;
@@ -243,7 +257,8 @@ button:not(:disabled) {
     background-color: var(--surface-2);
   }
   .paso:not(:disabled):hover,
-  .ancla[aria-pressed="false"]:hover {
+  .ancla[aria-pressed="false"]:hover,
+  .boton-sec:hover {
     background-color: rgb(255 255 255 / 0.14);
   }
 }

@@ -13,7 +13,14 @@ const jetbrains = JetBrains_Mono({
   subsets: ["latin"],
 });
 
+const sitio =
+  process.env.NEXT_PUBLIC_SITE_URL ??
+  (process.env.VERCEL_PROJECT_PRODUCTION_URL
+    ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`
+    : "http://localhost:3311");
+
 export const metadata: Metadata = {
+  metadataBase: new URL(sitio),
   title: "No elegir, también es una elección",
   description:
     "Descubre cuánto pesa tu voto según tu edad, tu estado y tu municipio, con los Conteos Censales de Participación Ciudadana del INE 2009–2024.",
