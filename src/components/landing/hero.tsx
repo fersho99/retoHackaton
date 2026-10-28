@@ -17,7 +17,7 @@ export function Hero({ onStart }: { onStart: () => void }) {
   const ready = estado != null && edadValida;
 
   return (
-    <section className="relative flex min-h-svh flex-col overflow-hidden">
+    <section className="grain relative flex min-h-svh flex-col overflow-hidden">
       <div
         aria-hidden
         className="a-fade pointer-events-none absolute inset-0"
