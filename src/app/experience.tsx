@@ -18,6 +18,13 @@ export function Experience() {
       <Hero onStart={start} />
       <CurvaEdad ref={curvaRef} />
       <PesoMunicipio />
+      <footer className="hud flex flex-col gap-2 border-t border-line px-6 py-8 sm:px-10">
+        <p>Fuente de datos: INE · Conteos Censales de Participación Ciudadana 2009—2024</p>
+        <p>
+          Arte de los cubos: convocatoria Hackea la participación, INE · Fondo: Gradient Wallpapers,
+          Unsplash
+        </p>
+      </footer>
     </main>
   );
 }

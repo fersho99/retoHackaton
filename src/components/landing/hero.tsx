@@ -40,6 +40,15 @@ export function Hero({ onStart }: { onStart: () => void }) {
         }}
       />
 
+      <Image
+        src="/img/cubos-b.png"
+        alt=""
+        width={379}
+        height={240}
+        className="a-fade pointer-events-none absolute bottom-32 right-10 hidden w-[340px] sm:block"
+        style={delay(900)}
+      />
+
       <header className="relative flex items-center justify-between gap-4 px-6 pt-6 sm:px-10">
         <span className="hud a-fade whitespace-nowrap" style={delay(500)}>
           Datos INE · 2009—2024
