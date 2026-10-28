@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { forwardRef, useMemo, useState } from "react";
 import {
   Bar,
@@ -93,8 +94,16 @@ export const PesoMunicipio = forwardRef<HTMLElement>(function PesoMunicipio(_, r
   return (
     <section
       ref={ref}
-      className="flex min-h-svh flex-col justify-center border-t border-line px-6 py-20 sm:px-10"
+      className="relative flex min-h-svh flex-col justify-center overflow-hidden border-t border-line px-6 py-20 sm:px-10"
     >
+      <Image
+        src="/img/grafica-pastel.png"
+        alt=""
+        width={1362}
+        height={987}
+        sizes="220px"
+        className="pointer-events-none absolute right-10 top-8 hidden w-[220px] sm:block"
+      />
       <p className="hud">
         Participación por grupo de edad · {view?.nombre ?? "Tu municipio"}
         {lugar ? ` · ${lugar}` : ""} · 2024
