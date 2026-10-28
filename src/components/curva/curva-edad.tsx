@@ -130,7 +130,7 @@ export const CurvaEdad = forwardRef<HTMLElement>(function CurvaEdad(_, ref) {
       <div ref={rvRef} data-visible={visible} className="contenido relative">
         <p className="hud rv">Participación por edad · {lugar} · 2024</p>
 
-        <div className="mt-8 grid items-center gap-10 lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] lg:gap-16">
+        <div className="mt-8 grid grid-cols-[minmax(0,1fr)] items-center gap-10 lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] lg:gap-16">
           <div>
             <p
               className={clsx(

@@ -71,7 +71,7 @@ export function Compartir() {
       <div
         ref={rvRef}
         data-visible={visible}
-        className="contenido grid items-center gap-12 lg:grid-cols-[auto_auto] lg:justify-start lg:gap-20"
+        className="contenido grid grid-cols-[minmax(0,1fr)] items-center gap-12 lg:grid-cols-[auto_auto] lg:justify-start lg:gap-20"
       >
         <div>
           <p className="hud rv">Tu tarjeta · 1080 × 1920</p>

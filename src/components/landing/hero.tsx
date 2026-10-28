@@ -59,7 +59,7 @@ export function Hero({ onStart }: { onStart: () => void }) {
       </div>
 
       <div
-        className="a-fade-up relative grid grid-cols-1 bg-surface/70 sm:grid-cols-[1fr_15rem_19rem]"
+        className="a-fade-up relative grid grid-cols-[minmax(0,1fr)] bg-surface/70 sm:grid-cols-[minmax(0,1fr)_15rem] lg:grid-cols-[minmax(0,1fr)_15rem_19rem]"
         style={delay(650)}
       >
         <CampoSelect
@@ -74,7 +74,7 @@ export function Hero({ onStart }: { onStart: () => void }) {
         <CampoEdad id="campo-edad" value={edad} onChange={setEdad} className="px-6 py-4" />
         <button
           onClick={onStart}
-          className="pressable flex items-center justify-center gap-3 bg-violet px-10 py-5 font-semibold whitespace-nowrap text-bg"
+          className="pressable flex items-center justify-center gap-3 bg-violet px-10 py-5 font-semibold whitespace-nowrap text-bg sm:col-span-2 lg:col-span-1"
         >
           {personalizado ? "Ver mi impacto" : "Ver el promedio nacional"} <span aria-hidden>↓</span>
         </button>

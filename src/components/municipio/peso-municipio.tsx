@@ -144,7 +144,7 @@ export const PesoMunicipio = forwardRef<HTMLElement>(function PesoMunicipio(_, r
           {view?.nombre ? `${view.nombre} · ${lugarEstado}` : "Todo el país"} · 2024
         </p>
 
-        <div className="mt-8 grid items-center gap-10 lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] lg:gap-16">
+        <div className="mt-8 grid grid-cols-[minmax(0,1fr)] items-center gap-10 lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] lg:gap-16">
           <div>
             <div className="rv max-w-md" style={delay(80)}>
               {estado != null ? (

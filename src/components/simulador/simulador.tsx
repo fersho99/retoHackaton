@@ -83,7 +83,7 @@ function Panel({ m, lugar, visible }: { m: Modelo; lugar: string; visible: boole
   const encendidas = Math.round(s.p);
 
   return (
-    <div className="mt-10 grid items-center gap-12 lg:grid-cols-[minmax(0,6fr)_minmax(0,5fr)] lg:gap-16">
+    <div className="mt-10 grid grid-cols-[minmax(0,1fr)] items-center gap-12 lg:grid-cols-[minmax(0,6fr)_minmax(0,5fr)] lg:gap-16">
       <div>
         <div className="rv" style={delay(160)}>
           <div className="relative">

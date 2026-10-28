@@ -50,7 +50,7 @@ export function CampoSelect({
           value={value ?? ""}
           onChange={(e) => onChange(e.target.value === "" ? null : Number(e.target.value))}
           className={clsx(
-            "min-w-0 flex-1 cursor-pointer appearance-none bg-transparent text-lg outline-none",
+            "w-full min-w-0 flex-1 cursor-pointer appearance-none truncate bg-transparent text-lg outline-none",
             value == null ? "text-ink-2" : "text-ink",
           )}
         >
