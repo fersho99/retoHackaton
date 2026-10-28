@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Archivo } from "next/font/google";
 import "./globals.css";
+import { RegistrarSW } from "@/components/registrar-sw";
 
 const archivo = Archivo({
   variable: "--font-archivo",
@@ -16,6 +17,13 @@ const sitio =
 
 export const metadata: Metadata = {
   metadataBase: new URL(sitio),
+  applicationName: "Tu voto pesa",
+  icons: { apple: "/icons/apple-touch-icon.png" },
+  appleWebApp: {
+    capable: true,
+    title: "Tu voto pesa",
+    statusBarStyle: "black-translucent",
+  },
   title: "No elegir, también es una elección",
   description:
     "Descubre cuánto pesa tu voto según tu edad, tu estado y tu municipio, con los Conteos Censales de Participación Ciudadana del INE 2009–2024.",
@@ -29,7 +37,9 @@ export const viewport: Viewport = {
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html lang="es" className={`${archivo.variable} h-full`}>
-      <body className="min-h-full flex flex-col">{children}</body>
+      <body className="min-h-full flex flex-col">{children}
+        <RegistrarSW />
+      </body>
     </html>
   );
 }
