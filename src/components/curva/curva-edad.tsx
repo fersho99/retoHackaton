@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { forwardRef, useMemo } from "react";
 import {
   Area,
@@ -63,13 +64,23 @@ export const CurvaEdad = forwardRef<HTMLElement>(function CurvaEdad(_, ref) {
   return (
     <section
       ref={ref}
-      className="flex min-h-svh flex-col justify-center px-6 py-24 sm:px-10"
+      className="relative flex min-h-svh flex-col justify-center overflow-hidden px-6 pb-24 pt-[42svh] sm:px-10"
     >
-      <p className="hud">
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-x-0 top-0 h-[46svh] opacity-80"
+        style={{
+          maskImage: "linear-gradient(to bottom, black 45%, transparent 100%)",
+          WebkitMaskImage: "linear-gradient(to bottom, black 45%, transparent 100%)",
+        }}
+      >
+        <Image src="/img/valle.jpg" alt="" fill sizes="100vw" className="object-cover object-center" />
+      </div>
+      <p className="hud relative">
         Participación por edad · {lugar} · 2024
       </p>
 
-      <div className="mt-8 grid items-center gap-10 lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] lg:gap-16">
+      <div className="relative mt-8 grid items-center gap-10 lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] lg:gap-16">
         <div>
           <p className="display num text-[22vw] font-black text-magenta sm:text-[14vw] lg:text-[9rem]">
             {userRate != null ? `${Math.round(userRate)}%` : "—"}
@@ -96,12 +107,6 @@ export const CurvaEdad = forwardRef<HTMLElement>(function CurvaEdad(_, ref) {
             </dl>
           )}
 
-          {view && view.edadTot.nv > 0 && (
-            <p className="mt-6 max-w-md text-ink-2">
-              <span className="num text-ink">{fn(view.edadTot.nv)}</span> personas de {edad} años
-              inscritas en la lista nominal de {lugar} no votaron.
-            </p>
-          )}
           {view && view.edadTot.ln > 0 && view.edadTot.ln < 1500 && (
             <p className="mt-3 max-w-md text-sm text-ink-3">
               A esta edad hay pocas personas en la lista nominal ({fn(view.edadTot.ln)}), así que la

@@ -3,6 +3,7 @@
 import { useRef } from "react";
 import { CurvaEdad } from "@/components/curva/curva-edad";
 import { Hero } from "@/components/landing/hero";
+import { NoVotaron } from "@/components/interludio/no-votaron";
 import { PesoMunicipio } from "@/components/municipio/peso-municipio";
 
 export function Experience() {
@@ -17,6 +18,7 @@ export function Experience() {
     <main>
       <Hero onStart={start} />
       <CurvaEdad ref={curvaRef} />
+      <NoVotaron />
       <PesoMunicipio />
       <footer className="hud px-6 py-10 sm:px-10">
         Fuente de datos: INE · Conteos Censales de Participación Ciudadana 2009—2024
