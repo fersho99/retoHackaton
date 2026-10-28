@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { useState, type CSSProperties } from "react";
 import { ESTADOS } from "@/lib/estados";
 import { useSelection } from "@/lib/selection";
@@ -18,6 +19,18 @@ export function Hero({ onStart }: { onStart: () => void }) {
 
   return (
     <section className="grain relative flex min-h-svh flex-col overflow-hidden">
+      <Image
+        src="/img/hero-fondo.jpg"
+        alt=""
+        fill
+        priority
+        sizes="100vw"
+        className="a-fade pointer-events-none object-cover opacity-35"
+      />
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-0 bg-linear-to-r from-bg via-bg/75 to-transparent"
+      />
       <div
         aria-hidden
         className="a-fade pointer-events-none absolute inset-0"
