@@ -105,7 +105,9 @@ body {
 
 /* Todo lo presionable responde al toque */
 .pressable {
-  transition: transform var(--dur-press) var(--ease-out);
+  transition:
+    transform var(--dur-press) var(--ease-out),
+    opacity var(--dur-small) ease;
 }
 .pressable:active {
   transform: scale(0.97);
@@ -140,13 +142,49 @@ body {
 
 .a-rise { animation: rise 900ms var(--ease-out) both; animation-delay: var(--d, 0ms); }
 .a-fade-up { animation: fade-up 500ms var(--ease-out) both; animation-delay: var(--d, 0ms); }
-.a-fade { animation: fade 700ms ease both; animation-delay: var(--d, 0ms); }
+.a-fade { animation: fade 700ms var(--ease-out) both; animation-delay: var(--d, 0ms); }
 
 @media (prefers-reduced-motion: reduce) {
   .a-rise,
   .a-fade-up {
     animation: fade 300ms ease both;
     animation-delay: 0ms;
+  }
+}
+
+/* Revelado al entrar en pantalla. Transición (no keyframes) para que sea interrumpible */
+.rv {
+  opacity: 0;
+  transform: translateY(16px);
+  transition:
+    opacity 600ms var(--ease-out),
+    transform 600ms var(--ease-out);
+  transition-delay: var(--d, 0ms);
+}
+[data-visible="true"] .rv {
+  opacity: 1;
+  transform: none;
+}
+
+/* Punto "tú" en la gráfica: aparece cuando la curva termina de dibujarse */
+@keyframes dot-in {
+  from { opacity: 0; transform: scale(0.9); }
+  to { opacity: 1; transform: scale(1); }
+}
+.dot-in {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: dot-in 240ms var(--ease-out) both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .rv {
+    transform: none;
+    transition: opacity 300ms ease;
+    transition-delay: 0ms;
+  }
+  .dot-in {
+    animation: fade 200ms ease both;
   }
 }
 

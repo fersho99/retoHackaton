@@ -27,7 +27,10 @@ export function Hero({ onStart }: { onStart: () => void }) {
         sizes="100vw"
         className="a-fade pointer-events-none object-cover object-[72%_center]"
       />
-      <div aria-hidden className="pointer-events-none absolute inset-0 bg-bg/55 sm:bg-transparent" />
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-0 bg-bg/55 sm:bg-transparent"
+      />
       <div
         aria-hidden
         className="pointer-events-none absolute inset-x-0 top-0 h-32 bg-linear-to-b from-bg/80 to-transparent"
