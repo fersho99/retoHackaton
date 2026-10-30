@@ -24,7 +24,7 @@ export const metadata: Metadata = {
     title: "Tu voto pesa",
     statusBarStyle: "black-translucent",
   },
-  title: "No elegir, también es una elección",
+  title: "Si no votas, otros deciden por ti",
   description:
     "Descubre cuánto pesa tu voto según tu edad, tu estado y tu municipio, con los Conteos Censales de Participación Ciudadana del INE 2009–2024.",
 };

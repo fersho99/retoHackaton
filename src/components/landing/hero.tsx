@@ -6,7 +6,7 @@ import { CampoEdad, CampoSelect } from "@/components/ui/campo";
 import { ESTADOS } from "@/lib/estados";
 import { useSelection } from "@/lib/selection";
 
-const LINES = ["No elegir,", "también es", "una elección."];
+const LINES = ["Si no votas,", "otros deciden", "por ti."];
 const OPCIONES_ESTADO = ESTADOS.map(([value, label]) => ({ value, label }));
 
 const delay = (ms: number) => ({ "--d": `${ms}ms` }) as CSSProperties;

@@ -2,7 +2,7 @@ import type { MetadataRoute } from "next";
 
 export default function manifest(): MetadataRoute.Manifest {
   return {
-    name: "No elegir, también es una elección",
+    name: "Si no votas, otros deciden por ti",
     short_name: "Tu voto pesa",
     description:
       "Descubre cuánto pesa tu voto según tu edad, tu estado y tu municipio.",
