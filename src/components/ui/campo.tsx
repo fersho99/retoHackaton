@@ -41,32 +41,43 @@ export function CampoSelect({
   vacio,
   className,
 }: SelectProps) {
+  const actual =
+    value == null ? (vacio ?? "") : (opciones.find((o) => o.value === value)?.label ?? "");
+
   return (
-    <label className={clsx("campo flex flex-col gap-1", className)}>
+    // El select cubre toda la celda (invisible) para que cualquier clic abra la lista;
+    // si solo ocupara el texto, un clic en el margen o la flecha solo lo enfocaría.
+    <label className={clsx("campo relative flex flex-col gap-1", className)}>
       <span className="hud">{etiqueta}</span>
       <span className="flex items-center gap-3">
-        <select
-          id={id}
-          value={value ?? ""}
-          onChange={(e) => onChange(e.target.value === "" ? null : Number(e.target.value))}
+        <span
+          aria-hidden
           className={clsx(
-            "w-full min-w-0 flex-1 cursor-pointer appearance-none truncate bg-transparent text-lg outline-none",
+            "min-w-0 flex-1 truncate text-lg",
             value == null ? "text-ink-2" : "text-ink",
           )}
         >
-          {vacio && (
-            <option value="" className="bg-surface text-ink">
-              {vacio}
-            </option>
-          )}
-          {opciones.map((o) => (
-            <option key={o.value} value={o.value} className="bg-surface text-ink">
-              {o.label}
-            </option>
-          ))}
-        </select>
+          {actual}
+        </span>
         <Chevron />
       </span>
+      <select
+        id={id}
+        value={value ?? ""}
+        onChange={(e) => onChange(e.target.value === "" ? null : Number(e.target.value))}
+        className="absolute inset-0 size-full cursor-pointer opacity-0"
+      >
+        {vacio && (
+          <option value="" className="bg-surface text-ink">
+            {vacio}
+          </option>
+        )}
+        {opciones.map((o) => (
+          <option key={o.value} value={o.value} className="bg-surface text-ink">
+            {o.label}
+          </option>
+        ))}
+      </select>
     </label>
   );
 }
